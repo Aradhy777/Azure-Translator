@@ -75,6 +75,7 @@ const copyTargetBtn = document.getElementById('copyTargetBtn');
 const charCountSpan = document.getElementById('charCount');
 const loadingIndicator = document.getElementById('loadingIndicator');
 const detectedLangBadge = document.getElementById('detectedLangBadge');
+const bgInteractiveGlow = document.getElementById('bgInteractiveGlow');
 
 // Settings Panel Collapse
 const settingsPanel = document.getElementById('settingsPanel');
@@ -93,6 +94,33 @@ toggleSettingsBtn.addEventListener('click', () => {
         toggleSettingsBtn.innerHTML = '<i class="fas fa-chevron-up"></i>';
     }
 });
+
+// Interactive background glow that follows pointer movement.
+function setupInteractiveBackground() {
+    if (!bgInteractiveGlow) {
+        return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+        bgInteractiveGlow.style.display = 'none';
+        return;
+    }
+
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    if (isTouchDevice) {
+        document.documentElement.style.setProperty('--mouse-x', '50%');
+        document.documentElement.style.setProperty('--mouse-y', '28%');
+        return;
+    }
+
+    window.addEventListener('pointermove', (event) => {
+        const x = (event.clientX / window.innerWidth) * 100;
+        const y = (event.clientY / window.innerHeight) * 100;
+        document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+        document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+    });
+}
 
 // Initialize language dropdowns
 function populateLanguageDropdowns() {
@@ -343,6 +371,7 @@ function init() {
     loadSettings();
     updateCharCount();
     targetDiv.innerHTML = 'Click "Translate" to start...';
+    setupInteractiveBackground();
 }
 
 init();
