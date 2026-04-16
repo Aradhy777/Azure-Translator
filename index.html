@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Azure AI Translator | Smart Language Bridge</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Settings Panel (Azure Credentials) -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Azure Translator Configuration</h3>
+                <button class="toggle-settings-btn" id="toggleSettingsBtn" aria-label="Close Settings">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+            </div>
+            <div class="settings-content" id="settingsContent">
+                <div class="input-group">
+                    <label><i class="fas fa-key"></i> Translator Resource Key</label>
+                    <input type="password" id="apiKey" placeholder="Paste your Azure Translator Key" autocomplete="off">
+                    <small class="input-hint">Found in Azure Portal → Your Translator Resource → Keys and Endpoint</small>
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Resource Region</label>
+                    <input type="text" id="region" placeholder="e.g., eastus, westeurope, global" autocomplete="off">
+                    <small class="input-hint">The region where your resource was created (e.g., "eastus"). Use "global" for the global endpoint.</small>
+                </div>
+                <button id="saveSettingsBtn" class="save-settings-btn">
+                    <i class="fas fa-save"></i> Save & Connect
+                </button>
+                <div class="settings-status" id="settingsStatus"></div>
+            </div>
+        </div>
+
+        <!-- Main Translator UI -->
+        <div class="translator-main">
+            <header class="app-header">
+                <div class="logo">
+                    <i class="fas fa-language"></i>
+                    <h1>Azure AI Translator</h1>
+                </div>
+                <p class="subtitle">Powered by Microsoft Neural Machine Translation</p>
+            </header>
+
+            <div class="translation-container">
+                <!-- Source Text Panel -->
+                <div class="text-panel source-panel">
+                    <div class="panel-header">
+                        <div class="language-selector">
+                            <i class="fas fa-globe"></i>
+                            <select id="sourceLanguage">
+                                <option value="auto">Detect Language (Auto)</option>
+                                <!-- Languages will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="panel-actions">
+                            <button id="clearSourceBtn" class="action-btn" title="Clear Text">
+                                <i class="fas fa-eraser"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <textarea id="sourceText" placeholder="Enter text to translate..." rows="8"></textarea>
+                    <div class="panel-footer">
+                        <span id="charCount">0</span> characters
+                        <span id="detectedLangBadge" class="detected-badge" style="display: none;"></span>
+                    </div>
+                </div>
+
+                <!-- Translation Controls -->
+                <div class="translation-controls">
+                    <button id="swapLanguagesBtn" class="swap-btn" title="Swap Languages">
+                        <i class="fas fa-arrow-down"></i>
+                        <i class="fas fa-arrow-up"></i>
+                    </button>
+                    <button id="translateBtn" class="translate-btn">
+                        <i class="fas fa-robot"></i> Translate
+                    </button>
+                </div>
+
+                <!-- Target Text Panel -->
+                <div class="text-panel target-panel">
+                    <div class="panel-header">
+                        <div class="language-selector">
+                            <i class="fas fa-globe"></i>
+                            <select id="targetLanguage">
+                                <!-- Languages will be populated dynamically via JavaScript -->
+                            </select>
+                        </div>
+                        <div class="panel-actions">
+                            <button id="copyTargetBtn" class="action-btn" title="Copy Translation">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button id="clearTargetBtn" class="action-btn" title="Clear Translation">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="targetText" class="translated-text" contenteditable="false"></div>
+                    <div class="panel-footer">
+                        <div class="loading-indicator" id="loadingIndicator">
+                            <div class="spinner"></div>
+                            <span>Translating...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Your Azure credentials are stored locally in your browser and never leave your device.</span>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-language"></i>
+                    <span>Supports 100+ languages with real-time neural machine translation.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
